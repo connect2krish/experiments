@@ -99,6 +99,17 @@ public class LinkedList {
 		}
 	}
 	
+	public int getCount() {
+		Node n = head;
+		int count =0;
+		while(n != null) {
+			count ++;
+			n = n.next;
+		}
+		
+		return count;
+	}
+	
 	public static void main(String args[]) {
 		LinkedList list = new LinkedList();
 		
@@ -107,12 +118,15 @@ public class LinkedList {
 		list.insertAfter(list.head, 5);
 		list.append(7);
 		list.printAll();
+		System.out.println("count=" + list.getCount());
 		
 		list.delete(2);
 		list.printAll();
+		System.out.println("count=" + list.getCount());
 
 		list.deleteNodePosition(1);
 		list.printAll();
 		
+		System.out.println("count=" + list.getCount());
 	}
 }
