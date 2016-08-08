@@ -94,7 +94,7 @@ public class LinkedList {
 		Node n = head;
 		
 		while(n != null) {
-			System.out.println(n.data);
+			System.out.print(n.data + " ");
 			n = n.next;
 		}
 	}
@@ -110,6 +110,82 @@ public class LinkedList {
 		return count;
 	}
 	
+	public void swap(int x, int y) {
+		
+		if (x == y) {
+			return;
+		}
+		
+		Node prev = null, currX = head;
+		
+		while (currX != null && currX.data != x) {
+			
+		}
+		
+	}
+	
+	public void swapNodes(int x, int y) {
+		
+	    // Nothing to do if x and y are same
+        if (x == y) return;
+ 
+        // Search for x (keep track of prevX and CurrX)
+        Node prevX = null, currX = head;
+        while (currX != null && currX.data != x)
+        {
+            prevX = currX;
+            currX = currX.next;
+        }
+ 
+        // Search for y (keep track of prevY and currY)
+        Node prevY = null, currY = head;
+        while (currY != null && currY.data != y)
+        {
+            prevY = currY;
+            currY = currY.next;
+        }
+ 
+        // If either x or y is not present, nothing to do
+        if (currX == null || currY == null)
+            return;
+ 
+        // If x is not head of linked list
+        if (prevX != null)
+            prevX.next = currY;
+        else //make y the new head
+            head = currY;
+ 
+        // If y is not head of linked list
+        if (prevY != null)
+            prevY.next = currX;
+        else // make x the new head
+            head = currX;
+ 
+        // Swap next pointers
+        Node temp = currX.next;
+        currX.next = currY.next;
+        currY.next = temp;		
+	}
+	
+	public int getMidpoint() {
+		
+		if (head != null) {
+			
+			Node slowPtr = head;
+			Node fastPtr = head;
+			
+			while (fastPtr!=null && fastPtr.next != null) {				
+				fastPtr = fastPtr.next.next;
+				slowPtr = slowPtr.next;				
+			}
+			
+			return slowPtr.data;
+			
+		}
+		
+		return -1;
+	}
+
 	public static void main(String args[]) {
 		LinkedList list = new LinkedList();
 		
@@ -117,6 +193,9 @@ public class LinkedList {
 		list.insertAtTop(2);
 		list.insertAfter(list.head, 5);
 		list.append(7);
+		list.append(8);
+		list.append(9);
+		list.append(10);
 		list.printAll();
 		System.out.println("count=" + list.getCount());
 		
@@ -128,5 +207,11 @@ public class LinkedList {
 		list.printAll();
 		
 		System.out.println("count=" + list.getCount());
+		
+		//x=5 and y=9 swap
+		list.swapNodes(7, 9);
+		list.printAll();
+		
+		System.out.println("mid point: " + list.getMidpoint());
 	}
 }
