@@ -185,6 +185,25 @@ public class LinkedList {
 		
 		return -1;
 	}
+	
+	public int getNth(int n) {
+		
+		Node ptr = head;
+		int count = 0;
+		
+		if (head!=null) {
+			while (ptr != null && ptr.next != null) {
+				if (count == n) {
+					return ptr.data;				
+				}
+				
+				count++;
+				ptr = ptr.next;
+			}
+		}
+		
+		return -1;
+	}
 
 	public static void main(String args[]) {
 		LinkedList list = new LinkedList();
@@ -198,6 +217,8 @@ public class LinkedList {
 		list.append(10);
 		list.printAll();
 		System.out.println("count=" + list.getCount());
+		System.out.println("mid point: " + list.getMidpoint());
+		System.out.println("Get 4th: " + list.getNth(4));
 		
 		list.delete(2);
 		list.printAll();
@@ -211,7 +232,5 @@ public class LinkedList {
 		//x=5 and y=9 swap
 		list.swapNodes(7, 9);
 		list.printAll();
-		
-		System.out.println("mid point: " + list.getMidpoint());
 	}
 }
