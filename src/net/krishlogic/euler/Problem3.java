@@ -10,15 +10,12 @@ package net.krishlogic.euler;
 public class Problem3 {
 	
 	public static void main(String args[]) {
-//		getLargestPrimeFactor("600851475143");
 		getLargestPrimeFactor("600851475143");
 	}
 	
 	private static void getLargestPrimeFactor(String val) {
 		
-		Double value = Double.parseDouble(val);
-		
-		Double holder = value;
+		Double holder = Double.parseDouble(val);
 		
 		for (double d = 2; d <= holder; d++) {
 			
