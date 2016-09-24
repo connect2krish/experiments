@@ -24,7 +24,6 @@ public class Problem3 {
 				System.out.println(d);
 				d = 1;
 			}
-			
 		}
 	}
 }
