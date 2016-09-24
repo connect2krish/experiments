@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fad9f6fe-f5e3-44bf-b73c-10fa752d9aa5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/krishlogic/euler/Problem5.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/krishlogic/euler/Problem6.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/krishlogic/euler/Problem7.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/krishlogic/euler/Problem3.java" afterPath="$PROJECT_DIR$/src/net/krishlogic/euler/Problem3.java" />
-    </list>
+    <list default="true" id="fad9f6fe-f5e3-44bf-b73c-10fa752d9aa5" name="Default" comment="" />
     <ignored path="experiments.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -672,7 +666,13 @@
       <option name="project" value="LOCAL" />
       <updated>1474608171690</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="problem 5,6,7">
+      <created>1474702755431</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1474702755431</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -716,7 +716,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="problem 4" />
-    <option name="LAST_COMMIT_MESSAGE" value="problem 4" />
+    <MESSAGE value="problem 5,6,7" />
+    <option name="LAST_COMMIT_MESSAGE" value="problem 5,6,7" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
