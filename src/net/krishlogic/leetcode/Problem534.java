@@ -12,6 +12,8 @@ public class Problem534 {
 
     public static String getNewTinyUrl() {
 
+        return null;
+
     }
 
     public static void main(String args[]) {
