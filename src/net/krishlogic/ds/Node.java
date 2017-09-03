@@ -8,8 +8,12 @@ public class Node {
     public String value;
 
     public Node(int id) {
-        left = right = null;
-        value = null;
+        this(id, null);
+    }
+
+    public Node(int id, String value) {
         this.id = id;
+        this.value = value;
+        left = right = null;
     }
 }

@@ -10,7 +10,6 @@ public class BinaryTree {
         root = null;
     }
 
-
     /**
      * traversal inorder: Left - root - right
      * @param node
