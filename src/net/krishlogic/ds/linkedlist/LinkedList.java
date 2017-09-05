@@ -1,21 +1,23 @@
 package net.krishlogic.ds.linkedlist;
 
+import net.krishlogic.ds.Node;
+
 public class LinkedList {
 	public Node head;
 	
-	public void insertAtTop(int data) {
+	public void insertAtTop(int id) {
 		
-		Node newNode = new Node(data);
+		Node newNode = new Node(id);
 		newNode.next = head;
 		head = newNode;
 	}
 	
-	public void insertAfter(Node prevNode, int data) {
+	public void insertAfter(Node prevNode, int id) {
 		if (prevNode == null) {
 			return;
 		}
 		
-		Node newNode = new Node(data);
+		Node newNode = new Node(id);
 		
 		newNode.next = prevNode.next;		
 		prevNode.next = newNode;
@@ -53,12 +55,12 @@ public class LinkedList {
 		Node temp = head;
 		Node prev = null;
 		
-		while (temp != null && temp.data == key) {
+		while (temp != null && temp.id == key) {
 			head = temp.next;
 			return;
 		}
 		
-		while (temp != null && temp.data != key) {
+		while (temp != null && temp.id != key) {
 			prev = temp;
 			temp = temp.next;
 		}
@@ -70,9 +72,9 @@ public class LinkedList {
 		prev.next = temp.next;
 	}
 	
-	public void append(int data) {
+	public void append(int id) {
 		//create the node
-		Node newNode = new Node(data);
+		Node newNode = new Node(id);
 		
 		if (head == null) {
 			head = newNode;
@@ -89,24 +91,24 @@ public class LinkedList {
 		last.next = newNode;
 			
 	}
-	
+
 	public void printAll() {
 		Node n = head;
-		
 		while(n != null) {
-			System.out.print(n.data + " ");
+			System.out.println("id: " + n.id);
 			n = n.next;
 		}
 	}
-	
+
 	public int getCount() {
+		int count = 0;
 		Node n = head;
-		int count =0;
+
 		while(n != null) {
-			count ++;
+			count++;
 			n = n.next;
 		}
-		
+
 		return count;
 	}
 	
@@ -118,7 +120,7 @@ public class LinkedList {
 		
 		Node prev = null, currX = head;
 		
-		while (currX != null && currX.data != x) {
+		while (currX != null && currX.id != x) {
 			
 		}
 		
@@ -131,7 +133,7 @@ public class LinkedList {
  
         // Search for x (keep track of prevX and CurrX)
         Node prevX = null, currX = head;
-        while (currX != null && currX.data != x)
+        while (currX != null && currX.id != x)
         {
             prevX = currX;
             currX = currX.next;
@@ -139,7 +141,7 @@ public class LinkedList {
  
         // Search for y (keep track of prevY and currY)
         Node prevY = null, currY = head;
-        while (currY != null && currY.data != y)
+        while (currY != null && currY.id != y)
         {
             prevY = currY;
             currY = currY.next;
@@ -166,23 +168,20 @@ public class LinkedList {
         currX.next = currY.next;
         currY.next = temp;		
 	}
-	
+
 	public int getMidpoint() {
-		
 		if (head != null) {
-			
 			Node slowPtr = head;
 			Node fastPtr = head;
-			
-			while (fastPtr!=null && fastPtr.next != null) {				
+
+			while (fastPtr != null && fastPtr.next != null) {
+				slowPtr = slowPtr.next;
 				fastPtr = fastPtr.next.next;
-				slowPtr = slowPtr.next;				
 			}
-			
-			return slowPtr.data;
-			
+
+			return slowPtr.id;
 		}
-		
+
 		return -1;
 	}
 	
@@ -194,7 +193,7 @@ public class LinkedList {
 		if (head!=null) {
 			while (ptr != null && ptr.next != null) {
 				if (count == n) {
-					return ptr.data;				
+					return ptr.id;				
 				}
 				
 				count++;

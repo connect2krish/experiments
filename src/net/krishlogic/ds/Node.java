@@ -6,6 +6,7 @@ public class Node {
     public Node left;
     public Node right;
     public String value;
+    public Node next;
 
     public Node(int id) {
         this(id, null);
@@ -15,5 +16,6 @@ public class Node {
         this.id = id;
         this.value = value;
         left = right = null;
+        this.next = null;
     }
 }

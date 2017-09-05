@@ -1,6 +1,7 @@
 package net.krishlogic.ds.tree;
 
 import net.krishlogic.ds.Node;
+import net.krishlogic.ds.tree.BinaryTree;
 
 public class BinarySearchTree {
 
@@ -119,6 +120,8 @@ public class BinarySearchTree {
         System.out.println("ORDERS:");
 
         tree1.preOrder(root);
-
+        BinaryTree bt = new BinaryTree();
+        System.out.println("Sorted tree:");
+        bt.inOrderTraversal(root);
     }
 }

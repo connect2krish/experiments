@@ -57,6 +57,23 @@ public class BinaryTree {
         preOrderTraversal(node.right);
     }
 
+    public int getHeight(Node node) {
+        if (node == null) {
+            return 0;
+        } else {
+
+            int left = getHeight(node.left);
+            int right = getHeight(node.right);
+
+            if (left > right) {
+                return left + 1;
+            } else {
+                return right + 1;
+            }
+
+        }
+    }
+
     public static void main(String[] args) {
         BinaryTree binaryTree = new BinaryTree();
 
@@ -74,5 +91,8 @@ public class BinaryTree {
 
         System.out.println("in order traversal=");
         binaryTree.inOrderTraversal(binaryTree.root);
+
+        int height = binaryTree.getHeight(binaryTree.root);
+        System.out.println("height: " + height);
     }
 }

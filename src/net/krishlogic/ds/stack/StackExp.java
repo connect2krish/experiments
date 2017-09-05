@@ -49,6 +49,8 @@ public class StackExp {
 		System.out.println("peek: " + stackExp.peek());
 		System.out.println("isEmpty: " + stackExp.isEmpty());
 		stackExp.pop();
-		stackExp.printAll();		
+		stackExp.printAll();
+		stackExp.pop();
+		System.out.println("isEmpty: " + stackExp.isEmpty());
 	}
 }
