@@ -159,6 +159,40 @@ public class StringPlay {
         return (index[k-1] != length) ? str.charAt(index[k-1]) : ' ';
     }
 
+    /**
+     * http://www.geeksforgeeks.org/count-number-of-substrings-with-exactly-k-distinct-characters/
+     * @param str
+     * @param k
+     * @return
+     */
+
+    public static int printKDistinctCharacters(String str, int k) {
+        int[] cnt = new int[26]; //26 alphabets
+        int result = 0;
+        int length = str.length();
+
+        for (int i=0; i<length; i++) {
+            int distinctCount =0;
+
+            Arrays.fill(cnt, 0);
+            for (int j=i; j<length; j++) {
+                if (cnt[str.charAt(j) - 'a'] == 0) {
+                    System.out.print(str.charAt(j));
+                    distinctCount++;
+                }
+
+                cnt[str.charAt(j) - 'a']++;
+
+                if (distinctCount == k) {
+                    result++;
+                    System.out.println("");
+                }
+            }
+        }
+
+        return result;
+    }
+
     public static void main(String args[]) {
         System.out.println(reversAnArrayWithoutAffectingSpecialChars("aB,3$Es"));
         System.out.println("remove dupe" + removeDuplicatesFromString("aaaggtrrqeet"));
@@ -166,5 +200,8 @@ public class StringPlay {
         System.out.println("Remove spaces: " + removeSpaces(" a b c d "));
         System.out.println("second most freq char: " + secondMostFrequentChar("aabc"));
         System.out.println("Kth non-repeating char: " + kNonRepeatingChar("aaabccdeff", 3));
+        System.out.println("Kth distinct " + printKDistinctCharacters("abcbaa", 3)); // need to revisit.
+
+
     }
 }
