@@ -170,14 +170,14 @@ public class StringPlay {
         int[] cnt = new int[26]; //26 alphabets
         int result = 0;
         int length = str.length();
+        System.out.println("REVISIT THIS ONE");
 
         for (int i=0; i<length; i++) {
             int distinctCount =0;
-
             Arrays.fill(cnt, 0);
             for (int j=i; j<length; j++) {
                 if (cnt[str.charAt(j) - 'a'] == 0) {
-                    System.out.print(str.charAt(j));
+                    //System.out.print(str.charAt(j));
                     distinctCount++;
                 }
 
@@ -185,13 +185,62 @@ public class StringPlay {
 
                 if (distinctCount == k) {
                     result++;
-                    System.out.println("");
+                    //System.out.println("");
                 }
             }
         }
 
         return result;
     }
+
+
+    /**
+     * http://www.geeksforgeeks.org/find-kth-character-of-decrypted-string/
+     * @param str
+     * @param k
+     * @return
+     */
+    public static char getKthDecryptedString(String str, int k) {
+
+        String expand="";
+
+        for (int i=0; i<str.length();) {
+            int frequency = 0;
+            String temp= "";
+            while(i<str.length() && str.charAt(i) >= 'a' && str.charAt(i) <='z') {
+                temp += str.charAt(i);
+                i++;
+            }
+
+            while(i<str.length() && str.charAt(i) >='1' && str.charAt(i) <='9') {
+                frequency = frequency * 10 + Character.getNumericValue(str.charAt(i));
+                i++;
+            }
+
+            for(int j=1; j<=frequency; j++) {
+                expand +=temp;
+            }
+        }
+
+        return expand.charAt(k-1);
+    }
+
+    /**
+     * http://www.geeksforgeeks.org/count-characters-position-english-alphabets/
+     * @param str
+     * @return
+     */
+    public static int countCharAtSamePosition(String str) {
+        int result = 0;
+        for(int i=0; i<str.length(); i++) {
+            if (i == str.charAt(i)-'a' || i == str.charAt(i) - 'A') {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
 
     public static void main(String args[]) {
         System.out.println(reversAnArrayWithoutAffectingSpecialChars("aB,3$Es"));
@@ -201,7 +250,7 @@ public class StringPlay {
         System.out.println("second most freq char: " + secondMostFrequentChar("aabc"));
         System.out.println("Kth non-repeating char: " + kNonRepeatingChar("aaabccdeff", 3));
         System.out.println("Kth distinct " + printKDistinctCharacters("abcbaa", 3)); // need to revisit.
-
-
+        System.out.println("Kth Decrypted String: " + getKthDecryptedString("ab4c12ed3", 21));
+        System.out.println("Count characters at same position: " + countCharAtSamePosition("AbgdeF"));
     }
 }
