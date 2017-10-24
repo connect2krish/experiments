@@ -8,6 +8,7 @@ import java.util.Set;
 public class StringPlay {
 
     private static int NO_OF_CHARS = 256;
+    private static int NO_OF_ALPHABETS = 26;
 
     private static boolean isAlphabet(char a) {
         return (a >= 'a' && a<='z') || (a>='A' && a<='Z');
@@ -241,6 +242,120 @@ public class StringPlay {
         return result;
     }
 
+    /**
+     * http://www.geeksforgeeks.org/check-two-strings-k-anagrams-not/
+     * @param str1
+     * @param str2
+     * @param k
+     * @return
+     */
+    public static boolean areKAnagrams(String str1, String str2, int k) {
+        if (str1 == null || str2 == null || str1.length() == 0 || str2.length() == 0 || k < 1) {
+            return false;
+        }
+
+        char[] charArr1 = new char[NO_OF_ALPHABETS];
+        char[] charArr2 = new char[NO_OF_ALPHABETS];
+
+        for (int i=0; i<str1.length(); i++) {
+            charArr1[str1.charAt(i) - 'a']++;
+        }
+
+        for (int j=0; j<str2.length(); j++) {
+            charArr2[str2.charAt(j) - 'a']++;
+        }
+
+        int count =0;
+        for (int x=0; x<NO_OF_ALPHABETS; x++) {
+
+            if (charArr1[x] > charArr2[x]) {
+                count = count + Math.abs(charArr1[x] - charArr2[x]);
+            }
+
+            if (count > k) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * http://www.geeksforgeeks.org/count-words-in-a-given-string/
+     * @param str
+     * @return
+     */
+    public static int countWordsInAString(String str) {
+        int count = 0;
+        boolean state = true;
+        if (str == null || str.length() == 0) {
+            return count;
+        }
+        for(int i=0; i<str.length(); i++) {
+            char c = str.charAt(i);
+            if (c == '\n' || c == ' ' || c == '\t' || c== '\r') {
+                state = true;
+                continue;
+            }
+
+            if (state) {
+                state = false;
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * http://www.geeksforgeeks.org/count-substrings-with-same-first-and-last-characters/
+     * @param str
+     * method1 - O(n2);
+     * @return
+     */
+    public static int countSubstringWithSameFirstAndLastChar1(String str) {
+
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+        int count =0;
+        for (int i=0; i<str.length(); i++) {
+            for (int j=i; j<str.length(); j++) {
+                if (str.charAt(i) == str.charAt(j)) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+
+    /**
+     * http://www.geeksforgeeks.org/count-substrings-with-same-first-and-last-characters/
+     * @param str
+     * method2 - O(n);
+     * @return
+     */
+    public static int countSubstringWithSameFirstAndLastChar2(String str) {
+
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+
+        char[] c = new char[NO_OF_CHARS];
+        int count = 0;
+
+        for (int i=0; i<str.length(); i++) {
+            c[str.charAt(i) - 'a']++;
+        }
+
+        for (int i=0; i<str.length(); i++) {
+            count += c[i] * (c[i] + 1)/2;
+        }
+
+        return count;
+    }
 
     public static void main(String args[]) {
         System.out.println(reversAnArrayWithoutAffectingSpecialChars("aB,3$Es"));
@@ -252,5 +367,9 @@ public class StringPlay {
         System.out.println("Kth distinct " + printKDistinctCharacters("abcbaa", 3)); // need to revisit.
         System.out.println("Kth Decrypted String: " + getKthDecryptedString("ab4c12ed3", 21));
         System.out.println("Count characters at same position: " + countCharAtSamePosition("AbgdeF"));
+        System.out.println("areKAnagrams -- grammar, anagrams, 3:=> " + areKAnagrams("anagrams", "grammar", 3));
+        System.out.println("count words in a givn str: " + countWordsInAString("One two       three\n four\tfive  "));
+        System.out.println("count substring with same first and last chars= " + countSubstringWithSameFirstAndLastChar1("aba") + " method 2: " + countSubstringWithSameFirstAndLastChar2("aba"));
+
     }
 }
