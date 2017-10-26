@@ -14,8 +14,8 @@ import java.util.Set;
 
 public class StringPlay {
 
-    private static int NO_OF_CHARS = 256;
-    private static int NO_OF_ALPHABETS = 26;
+    private static int MAX_CHAR = 256;
+    private static int MAX_ALPHABETS = 26;
 
     private static boolean isAlphabet(char a) {
         return (a >= 'a' && a<='z') || (a>='A' && a<='Z');
@@ -114,14 +114,14 @@ public class StringPlay {
      */
     public static char secondMostFrequentChar(String str) {
         //total characters possible
-        char[] countOf = new char[NO_OF_CHARS];
+        char[] countOf = new char[MAX_CHAR];
 
         for(int i=0;i<str.length(); i++) {
             countOf[str.charAt(i)]++;
         }
 
         int first = 0; int second = 0;
-        for (int i=0; i<NO_OF_CHARS; i++) {
+        for (int i = 0; i< MAX_CHAR; i++) {
             if (countOf[i] > countOf[first]) {
                 second = first;
                 first = i;
@@ -140,10 +140,10 @@ public class StringPlay {
      */
     public static char kNonRepeatingChar(String str, int k) {
 
-        int[] count = new int[NO_OF_CHARS];
-        int[] index = new int[NO_OF_CHARS];
+        int[] count = new int[MAX_CHAR];
+        int[] index = new int[MAX_CHAR];
         int length = str.length();
-        for (int i=0; i< NO_OF_CHARS; i++) {
+        for (int i = 0; i< MAX_CHAR; i++) {
             count[i] = 0;
             index[i] = length;
         }
@@ -260,8 +260,8 @@ public class StringPlay {
             return false;
         }
 
-        char[] charArr1 = new char[NO_OF_ALPHABETS];
-        char[] charArr2 = new char[NO_OF_ALPHABETS];
+        char[] charArr1 = new char[MAX_ALPHABETS];
+        char[] charArr2 = new char[MAX_ALPHABETS];
 
         for (int i=0; i<str1.length(); i++) {
             charArr1[str1.charAt(i) - 'a']++;
@@ -272,7 +272,7 @@ public class StringPlay {
         }
 
         int count =0;
-        for (int x=0; x<NO_OF_ALPHABETS; x++) {
+        for (int x = 0; x< MAX_ALPHABETS; x++) {
 
             if (charArr1[x] > charArr2[x]) {
                 count = count + Math.abs(charArr1[x] - charArr2[x]);
@@ -349,7 +349,7 @@ public class StringPlay {
             return 0;
         }
 
-        char[] c = new char[NO_OF_CHARS];
+        char[] c = new char[MAX_CHAR];
         int count = 0;
 
         for (int i=0; i<str.length(); i++) {
@@ -452,13 +452,13 @@ public class StringPlay {
     }
 
     private static String getKey(String str) {
-        boolean[] visited = new boolean[NO_OF_CHARS];
+        boolean[] visited = new boolean[MAX_CHAR];
         Arrays.fill(visited, false);
 
         for (int j = 0; j < str.length(); j++)
             visited[str.charAt(j) - 'a'] = true ;
         String key = "";
-        for (int j=0; j < NO_OF_CHARS; j++) {
+        for (int j = 0; j < MAX_CHAR; j++) {
             if (visited[j]) {
                 key = key + (char)('a'+j);
             }
@@ -474,7 +474,7 @@ public class StringPlay {
 
 //        Map<String, char[]> map = new HashMap<>();
 //
-        char[] freq = new char[NO_OF_CHARS];
+        char[] freq = new char[MAX_CHAR];
 
         for (int i=0; i<str.length(); i++) {
 
@@ -508,7 +508,7 @@ public class StringPlay {
 
     public static void printDistinct(String str) {
 
-        char[] arr = new char[NO_OF_CHARS];
+        char[] arr = new char[MAX_CHAR];
 
         for (int i=0; i<str.length(); i++) {
             arr[str.charAt(i)]++;
@@ -532,8 +532,8 @@ public class StringPlay {
         int patternLength = pattern.length();
         int length = str.length();
 
-        char[] patternArr = new char[NO_OF_CHARS];
-        char[] strArr = new char[NO_OF_CHARS];
+        char[] patternArr = new char[MAX_CHAR];
+        char[] strArr = new char[MAX_CHAR];
 
         for (int i=0; i< patternLength; i++) {
             patternArr[pattern.charAt(i)]++;
@@ -580,8 +580,8 @@ public class StringPlay {
 
     public static String printCommonChars(String str1, String str2) {
 
-        char[] arr1 = new char[NO_OF_CHARS];
-        char[] arr2 = new char[NO_OF_CHARS];
+        char[] arr1 = new char[MAX_CHAR];
+        char[] arr2 = new char[MAX_CHAR];
 
         for (int i=0; i<str1.length(); i++) {
             arr1[str1.charAt(i)-'a']++;
@@ -593,7 +593,7 @@ public class StringPlay {
 
         String chars = "";
 
-        for (int i = 0 ; i < NO_OF_CHARS ; i++) {
+        for (int i = 0; i < MAX_CHAR; i++) {
             if (arr1[i] != 0 && arr2[i] != 0) {
                 for (int j = 0 ; j < Math.min(arr1[i], arr2[i]) ; j++)
                     chars += (char)(i + 'a');
@@ -611,7 +611,7 @@ public class StringPlay {
      * @return
      */
     public static int getMinStringValue(String str, int k) {
-        int[] charArr = new int[NO_OF_CHARS];
+        int[] charArr = new int[MAX_CHAR];
 
         for(int i=0; i<str.length(); i++) {
             charArr[str.charAt(i) - 'a']++;
@@ -630,7 +630,7 @@ public class StringPlay {
             }
         });
 
-        for (int i=0; i<NO_OF_CHARS; i++) {
+        for (int i = 0; i< MAX_CHAR; i++) {
             if (charArr[i] != 0) {
                 queue.add(charArr[i]);
             }
@@ -650,6 +650,316 @@ public class StringPlay {
         }
 
         return result;
+    }
+
+    public static int countVowelsIterative(String str) {
+        int vowelCount = 0;
+        for (int i=0; i<str.length(); i++) {
+            char a = Character.toLowerCase(str.charAt(i));
+
+            if (a == 'a' || a=='i' || a=='e' || a=='i' || a=='o' || a=='u') {
+                vowelCount ++;
+            }
+        }
+
+        return vowelCount;
+    }
+
+    /**
+     * http://www.geeksforgeeks.org/number-distinct-permutation-string-can/
+     * @param str
+     * str.length()! / each variable count!  eg: abbccc: 6!/(2!*3!)
+     */
+    public static int printDistinctPermutation(String str) {
+
+        int[] arr = new int[MAX_CHAR];
+
+        for (int i=0; i<str.length(); i++) {
+            arr[str.charAt(i) - 'a']++;
+        }
+
+        int fact = 1;
+
+        for (int i = 0; i< MAX_CHAR; i++) {
+            fact = fact * getFactorial(arr[i]);
+        }
+
+        return getFactorial(str.length()) / fact;
+
+    }
+
+    private static int getFactorial(int n) {
+        int fact = 1;
+
+        for (int i=2; i<=n; i++) {
+            fact = fact * i;
+        }
+
+        return fact;
+    }
+
+    public static boolean checkBothHalvesSame(String str) {
+
+        char[] arr = new char[MAX_CHAR];
+        int length = str.length();
+
+        for (int i=0, j=length-1; i<length && i<j; i++, j--) {
+            arr[str.charAt(i)]++;
+            arr[str.charAt(j)]--;
+        }
+
+        for (int i=0; i<MAX_CHAR; i++) {
+            if (arr[i] > 1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static int getCountRepeatedWords() {
+        String[] strArr = {"hello", "glue", "hello", "pink", "pink"};
+
+        Map<String, Integer> countMap = new HashMap<>();
+
+        for (String str : strArr) {
+            if (countMap.containsKey(str)) {
+                int val = countMap.get(str);
+                countMap.put(str, ++val);
+            } else {
+                countMap.put(str, 1);
+            }
+        }
+
+        int count = 0;
+        for (Entry<String, Integer> entry : countMap.entrySet()) {
+            if (entry.getValue() == 2) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public static boolean isSameByOneRemoval(String str) {
+        int[] arr = new int[MAX_ALPHABETS];
+
+        for (int i=0; i<str.length(); i++) {
+            arr[str.charAt(i) - 'a']++;
+        }
+
+        if (areSame(arr)) {
+            return true;
+        }
+
+        for (char ch = 'a'; ch<='z'; ch++) {
+
+            if (arr[ch-'a'] > 0) {
+
+                //reduce the count;
+                arr[ch - 'a']--;
+                //check if it's same
+                if (areSame(arr)) {
+                    return true;
+                }
+
+                arr[ch - 'a']++;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean areSame(int n[]) {
+
+        int same = 0;
+
+        int i;
+        for (i=0; i<MAX_ALPHABETS; i++) {
+
+            if (n[i] > 0) {
+                same = n[i];
+                break;
+            }
+        }
+
+        for (int j=i+1; j<MAX_ALPHABETS; j++) {
+            if (n[j]>0 && n[j]!=same) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static String getStringAfterAttempts(String str, char ch, int count) {
+
+        int _count = 0;
+        for (int i=0; i<str.length(); i++) {
+            if (str.charAt(i) == ch) {
+                _count++;
+            }
+
+            if (_count == count) {
+                return str.substring(i+1);
+            }
+        }
+
+        return "";
+    }
+
+    public static String removeCharactersFromFirstString(String str1, String str2) {
+        Set<Character> charSet = new HashSet<>();
+
+        for (int i=0; i<str2.length(); i++) {
+            charSet.add(str2.charAt(i));
+        }
+
+        char[] c = new char[str1.length()];
+
+        int count = 0;
+        for (int i=0; i<str1.length(); i++) {
+            if (!charSet.contains(str1.charAt(i))) {
+                c[count] = str1.charAt(i);
+                count++;
+            }
+        }
+
+        String str = new String(c);
+
+        return str.substring(0, count);
+    }
+
+    public static boolean areAnagrams(String str1, String str2) {
+        int[] arr1 = new int[MAX_ALPHABETS];
+        int[] arr2 = new int[MAX_ALPHABETS];
+
+        for (int i=0; i<str1.length(); i++) {
+            arr1[str1.charAt(i) - 'a']++;
+        }
+
+        for (int i=0; i<str2.length(); i++) {
+            arr2[str2.charAt(i) - 'a']++;
+        }
+
+        for (int i=0; i<str1.length(); i++) {
+            if (arr1[i] != arr2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean areBinaryAnagrams(int a, int b) {
+
+        int[] arrA = new int[8];
+        int[] arrB = new int[8];
+
+        int i = 0;
+        while(a > 0) {
+
+            arrA[i] = a %2;
+            a = a/2;
+            i++;
+        }
+
+        int j = 0;
+        while(b > 0) {
+
+            arrB[j] = b %2;
+            b = b/2;
+            j++;
+        }
+
+        Arrays.sort(arrA);
+        Arrays.sort(arrB);
+
+        for (int k=0; k<8; k++) {
+            if (arrA[k] != arrB[k]) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    public static boolean isPalindrome(int n) {
+        int result = 0;
+        int num = n;
+        while (n > 0) {
+            int temp = n%10;
+            result = result * 10 + temp;
+            n = n/10;
+        }
+
+        return num == result;
+    }
+
+    public static boolean isPanlindrome(String str) {
+        int left = 0;
+        int right = str.length() - 1;
+
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;
+            }
+
+            left ++; right--;
+        }
+
+        return true;
+    }
+
+    public static boolean isRotationPalindrome(String str) {
+        if (isPanlindrome(str)) {
+            return true;
+        }
+
+        for (int i=0; i< str.length()-1;i++) {
+            String str1 = str.substring(i+1);
+            String str2 = str.substring(0, i+1);
+
+            if (isPanlindrome(str1 + str2)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void palindromesInGivenRange(int a, int b) {
+        for (int i=a; i<b; i++) {
+            if (isPalindrome(i)) {
+                System.out.print(i+ ", ");
+            }
+        }
+    }
+
+    public static boolean isRearrangedPalindrome(String str) {
+        if (isPanlindrome(str)) {
+            return true;
+        }
+
+        int[] arr = new int[MAX_CHAR];
+
+        for (int i=0; i<str.length(); i++) {
+            arr[str.charAt(i)]++;
+        }
+
+        int odd = 0;
+        for (int i=0; i<MAX_CHAR; i++) {
+            if (arr[i] == 1) {
+                odd++;
+            }
+
+            if (odd > 1) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static void main(String args[]) {
@@ -674,5 +984,19 @@ public class StringPlay {
         System.out.println("\nREVISIT THIS ONE (wrong) Find the smallest window in a string containing all characters of another string: " + getSmallestWindowChar("this is a test string", "tist"));
         System.out.println("Print common characters of two Strings in alphabetical order: " + printCommonChars("geeks", "forgeeks"));
         System.out.println("Minimum sum of squares of character counts in a given string after removing k characters: " + getMinStringValue("abbccc", 2));
+        System.out.println("Count number of Vowels: iterative method: " + countVowelsIterative("abc de"));
+        System.out.println("distinct permutation a String can have: " + printDistinctPermutation("fvvfhvgv"));
+        System.out.println("Check if both halves of the string have same set of characters: " + checkBothHalvesSame("abab"));
+        System.out.println("Count words that appear exactly two times in an array of words: " + getCountRepeatedWords());
+        System.out.println("Check if frequency of all characters can become same by one removal " + isSameByOneRemoval("xxyyzbb"));
+        System.out.println("Print the string after the specified character has occurred given no. of times " + getStringAfterAttempts("geeksforgeeks", 'e', 2));
+        System.out.println("Remove characters from the first string which are present in the second string: " + removeCharactersFromFirstString("geeksforgeeks", "mask"));
+        System.out.println("Are anagrams of each other: " + areAnagrams("silent", "listen"));
+        System.out.println("Check if binary representations of two numbers are anagram " + areBinaryAnagrams(8, 4));
+
+        System.out.println("is palindrome: " + isPanlindrome("aaabaaa"));
+        System.out.println("Check if a given string is a rotation of a palindrome " + isRotationPalindrome("aaaad"));
+        System.out.println("Program to print all palindromes in a given range : "); palindromesInGivenRange(10, 115);
+        System.out.println("\n Check if characters of a given string can be rearranged to form a palindrome: " + isRearrangedPalindrome("geeksogeeks"));
     }
 }
