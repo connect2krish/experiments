@@ -1,7 +1,5 @@
 package net.krishlogic.ds;
 
-import sun.awt.image.ImageWatched.Link;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 
