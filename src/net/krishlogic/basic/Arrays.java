@@ -1,15 +1,24 @@
 package net.krishlogic.basic;
 
+import sun.rmi.server.InactiveGroupException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class Arrays {
 
@@ -557,25 +566,406 @@ public class Arrays {
 
     public static void nextGreaterElement() {
         int arr[] = { 11, 13, 21, 3 };
-
-        Stack<Integer> stack = new Stack<>();
-
-        for (int i=1; i<arr.length; i++) {
-            stack.push(arr[i]);
-        }
+        int next;
 
         for (int i=0; i<arr.length; i++) {
-            int next = -1;
-            int stackPop = stack.pop();
-            if (arr[i] > stackPop) {
-
+            next = -1;
+            for (int j= i+1; j< arr.length; j++) {
+                if (arr[i] < arr[j]) {
+                    next = arr[j];
+                    break;
+                }
             }
+            System.out.println(arr[i] + "--> " + next);
+        }
+    }
+
+    public static void kMostOccurances() {
+        int arr[] = {3, 1, 4, 4, 5, 2, 6, 1};
+        int k=2;
+        HashMap<Integer, Integer> unsortedMap = new HashMap<>();
+
+        for (int i=0; i<arr.length; i++) {
+            if (unsortedMap.containsKey(arr[i])) {
+                int val = unsortedMap.get(arr[i]);
+                unsortedMap.put(arr[i], ++val);
+            } else {
+                unsortedMap.put(arr[i], 1);
+            }
+        }
+
+        HashMap<Integer, Integer> sortedMap = unsortedMap.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Collections.reverseOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+
+        for (Entry<Integer, Integer> entry: sortedMap.entrySet()) {
+            if (k==0) {
+                break;
+            }
+            System.out.print(entry.getKey() + " ");
+            k--;
+        }
+    }
+
+    public static int smallestMissingNumber() {
+        int arr[] = {0, 1, 2, 6, 9};
+
+        if (arr[0] != 0) {
+            return 0;
+        }
+
+        for (int i=0; i<arr.length-1;i++) {
+            if (arr[i+1] - arr[i] >1) {
+                return arr[i]+1;
+            }
+        }
+
+        return -1;
+    }
+
+    public static void twoSmallestElements() {
+        int arr[] = {12, 13, 1, 10, 34, 1};
+
+        int first, second;
+        first = second = Integer.MAX_VALUE;
+
+        for (int i=0; i<arr.length; i++) {
+            if (first > arr[i]) {
+                second = first;
+                first = arr[i];
+            } else if (second > arr[i] && arr[i] != first) {
+                second = arr[i];
+            }
+        }
+
+        System.out.println(first + "  " + second);
+    }
+
+    public static void minMax() {
+        int arr[] = {1000, 11, 445, 1, 330, 3000};
+
+        int min, max;
+
+        if (arr.length == 1) {
+            min = arr[0];
+            max = arr[0];
+            System.out.println(min +" " + max);
+            return;
+        }
+
+        if (arr[0] > arr[1]) {
+            max = arr[0];
+            min = arr[1];
+        } else if(arr[0] < arr[1]){
+            max = arr[1];
+            min = arr[0];
+        } else {
+            min = max = arr[0];
+        }
+
+        for (int i=2; i<arr.length; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+            } else if (arr[i]<min) {
+                min = arr[i];
+            }
+        }
+
+        System.out.print(min + " " + max);
+    }
+
+    public static void slidingWindowMaximum() {
+        int arr[]={12, 1, 78, 90, 57, 89, 56};
+        int k=3;
+
+        Deque<Integer> queue = new LinkedList<>();
+        int i;
+
+        for (i=0; i<k; i++) {
+            while(!queue.isEmpty() && arr[i] >= arr[queue.peek()]) {
+                queue.removeLast();
+            }
+
+            queue.addLast(i);
+        }
+
+
+        for (; i<arr.length; ++i) {
+
+            System.out.print(arr[queue.peek()] + ",");
+
+            while(!queue.isEmpty() && queue.peek() <= (i-k)) {
+                queue.removeFirst();
+            }
+
+            while(!queue.isEmpty() && arr[i] >= arr[queue.peekLast()]) {
+                queue.removeLast();
+            }
+            queue.addLast(i);
+        }
+
+        //print the last one
+        System.out.print(arr[queue.peek()]);
+    }
+
+    public static int findMinDistBetweenTwoElements() {
+        int i=0;
+        int minDistance = Integer.MAX_VALUE;
+        int arr[] = {3, 5, 4, 2, 6, 5, 6, 6, 5, 4, 8, 3};
+        int n = arr.length;
+        int x = 3;
+        int y = 6;
+        int prevIndex=0;
+
+        for (i=0; i<n; i++) {
+            if (arr[i] == x || arr[i] == y) {
+                prevIndex = i;
+                break;
+            }
+        }
+
+        for (; i<n; i++) {
+
+            if (arr[i] == x || arr[i] == y) {
+
+                if (arr[prevIndex] != arr[i] && minDistance > (i-prevIndex)) {
+                    minDistance = i-prevIndex;
+                    prevIndex = i;
+                } else {
+                    prevIndex = i;
+                }
+            }
+        }
+
+        return minDistance;
+    }
+
+    public static int findMaxElement() {
+
+        int arr[] = {1, 30, 40, 50, 60, 70, 23, 20};
+        int max = arr[0];
+        for (int i=0; i<arr.length; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+
+        return max;
+    }
+
+    public static void spiralArray() {
+
+        int arr[][] = {{1,  2,  3}, {4,  5,  6}, {7,  8, 9}};
+
+        int rows = 3;
+        int cols = 3;
+        int top = 0;
+        int bottom = rows-1;
+        int left = 0;
+        int right = cols-1;
+        int dir = 0;
+
+        while(top <= bottom && left <= right) {
+
+            if (dir == 0) {
+                for (int i=left; i<=right; i++) {
+                    System.out.print(arr[top][i] + " ");
+                }
+                top++; dir=1;
+            } else if (dir == 1) {
+                for (int i=top; i<=bottom; i++) {
+                    System.out.print(arr[i][right] + " ");
+                }
+                right--; dir=2;
+            } else if (dir == 2) {
+                for (int i=right; i>=left; i--) {
+                    System.out.print(arr[bottom][i] + " ");
+                }
+                bottom--; dir=3;
+            } else if (dir == 3) {
+                for (int i=bottom; i>=top; i--) {
+                    System.out.print(arr[i][left] + " ");
+                }
+                left++; dir=0;
+            }
+        }
+    }
+
+    public static int getLargestSumContiguousArr() {
+        int [] a = {-2, -3, 4, -1, -2, 1, 5, -3};
+
+        int max = Integer.MIN_VALUE;
+        int frameTotal = 0;
+        for (int i=0; i<a.length; i++) {
+
+            frameTotal = frameTotal + a[i];
+            if (max < frameTotal) {
+                max = frameTotal;
+            }
+
+            if (frameTotal < 0){
+                frameTotal = 0;
+            }
+        }
+
+        return max;
+    }
+
+    public static void printTriangle(int n) {
+
+        int[][] auxArr = new int[n][n];
+
+        for (int lines=0; lines<n; lines++) {
+            for (int i=0; i<=lines; i++) {
+
+                if (lines == 0 || i == 0) {
+                    auxArr[lines][i] = 1;
+                } else {
+                    auxArr[lines][i] = auxArr[lines-1][i-1] + auxArr[lines-1][i];
+                }
+               System.out.print(auxArr[lines][i] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void mergeOverlappingIntervals() {
+        int[][] arr = {{3,5}, {6,7}, {8,10}}; // {1,9}{2,4}{4,7}{6,8} -- after sorting
+        int n = 3;
+
+        java.util.Arrays.sort(arr, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] < o2[0]) {
+                    return -1;
+                } else if (o1[0] > o2[0]){
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+
+        Stack<int[]> stack = new Stack<>();
+
+        stack.push(arr[0]);
+
+        for (int i=1; i<arr.length; i++) {
+            int[] temp = stack.peek();
+
+            if (arr[i][0] > temp[1]) {
+                stack.push(arr[i]);
+            } else if (temp[0] > arr[i][0]) {
+                stack.pop();
+                arr[i][0]=temp[0];
+                stack.push(arr[i]);
+            }
+        }
+
+        while(!stack.empty()) {
+            int[] a = stack.pop();
+            System.out.println(a[0]+ ","+a[1]);
+        }
+    }
+
+    public static int getMaxWaterTrapped() {
+        int arr[] = new int[]{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+        int n = arr.length;
+
+        int[] left = new int[arr.length];
+        int[] right = new int[arr.length];
+
+        int water = 0;
+        left[0] = arr[0];
+
+        for (int i=1; i<arr.length; i++) {
+            left[i] = Math.max(left[i-1], arr[i]);
+        }
+
+        right[n-1] = arr[n-1];
+        for (int i=n-2; i>=0; i--) {
+            right[i] = Math.max(right[i+1], arr[i]);
+        }
+
+
+        for (int i=0; i<n; i++) {
+            water += Math.min(left[i], right[i]) - arr[i];
+        }
+
+        return water;
+    }
+
+    public static void rotateMatrix() {
+        int arr[][] = { {1,  2,  3,  4},
+            {5,  6,  7,  8},
+            {9,  10, 11, 12},
+            {13, 14, 15, 16}  };
+
+        int endRow = arr[0].length;
+        int endCols = arr.length;
+        int startRow = 0;
+        int startCol = 0;
+
+        int prev = arr[startRow+1][0];
+
+        while(startRow < endRow && startCol < endCols) {
+
+            for (int i=startCol; i<endCols; i++) {
+
+                int curr = arr[startRow][i];
+                arr[startRow][i] = prev;
+                prev = curr;
+            }
+            startRow++;
+
+            for (int i=startRow; i<endRow; i++) {
+                int curr = arr[i][endCols-1];
+                arr[i][endCols-1] = prev;
+                prev = curr;
+            }
+            endCols--;
+
+            if (startRow < endRow) {
+                for (int i=endCols-1; i>=startCol; i--) {
+                    int curr = arr[endRow-1][i];
+                    arr[endRow-1][i] = prev;
+                    prev = curr;
+                }
+            }
+
+            endRow--;
+
+            if (startCol < endCols) {
+                for (int i=endRow-1; i>=startRow; i--) {
+
+                    int curr = arr[i][startCol];
+                    arr[i][startCol] = prev;
+                    prev = curr;
+                }
+
+                startCol++;
+            }
+        }
+
+
+        for (int i=0; i<arr.length; i++) {
+            for (int j=0; j<arr.length; j++) {
+                System.out.print(arr[i][j] + " ");
+            }
+
+            System.out.println("");
         }
     }
 
     public static void main(String[] args) {
         int[] arr1 = {1, 2, 3, 4, 5, 6, 7};
-        System.out.println("Program for array rotation: "); rotateArray(arr1, 2);
+        System.out.println("\nProgram for array rotation: "); rotateArray(arr1, 2);
         System.out.println("\ncyclic array rotation: "); cyclicArrayRotation(arr1, 2);
         System.out.println("Search in sorted and rotated array: " + getIndexOf());
         System.out.println("Given a sorted and rotated array, find if there is a pair with a given sum: " + isPairInSortedRotated());
@@ -598,5 +988,23 @@ public class Arrays {
         System.out.println("\n Reorder an array according to given indexes: "); reorderByIndex();
         System.out.println("\n Find all elements in array which have at-least two greater elements: "); findElements1(); findMinElements2();
         System.out.println("\n Next Greater Element : "); nextGreaterElement();
+        System.out.println("\n REVISIT WORKS: Find k numbers with most occurrences in the given array : "); kMostOccurances();
+        System.out.println("\n Find the smallest missing number: " + smallestMissingNumber());
+        System.out.println("\n Find the smallest and second smallest elements in an array: "); twoSmallestElements();
+        System.out.println("\n Maximum and minimum of an array using minimum number of comparisons"); minMax();
+        System.out.println("\n Sliding Window Maximum: "); slidingWindowMaximum();
+        System.out.println("\n Find the minimum distance between two numbers" + findMinDistBetweenTwoElements());
+        System.out.println("\n Find the maximum element in an array which is first increasing and then decreasing: " + findMaxElement());
+        /**
+         *
+         * todo: dynamic programming and Longest increasing subsequence
+         */
+
+        System.out.println("\n print an array in spiral form: "); spiralArray();
+        System.out.println("\n Largest Sum Contiguous Subarray: " + getLargestSumContiguousArr());
+        System.out.println("\n Pascal's triangle"); printTriangle(2);
+        System.out.println("\n Merge overlapping intervals: "); mergeOverlappingIntervals();
+        System.out.println("\n find water trapped: " + getMaxWaterTrapped());
+        System.out.println("\n rotate matrix: "); rotateMatrix();
     }
 }
