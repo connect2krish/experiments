@@ -9,6 +9,7 @@ import java.util.Stack;
 public class LinkedList {
 
 	public Node head;
+	public Node headA;
 
 	public void append(Node node) {
 		Node temp = head;
@@ -26,8 +27,8 @@ public class LinkedList {
 		temp.next = node;
 	}
 
-	public void printAll(boolean newLine) {
-		Node temp = head;
+	private void printAll(Node node, boolean newLine) {
+		Node temp = node;
 		while(temp != null) {
 			if(newLine) {
 				System.out.println(temp.id);
@@ -39,6 +40,14 @@ public class LinkedList {
 		}
 
 		System.out.println("");
+	}
+
+	public void printAll(Node node) {
+		printAll(node, false);
+	}
+
+	public void printAll(boolean newLine) {
+		printAll(head, newLine);
 	}
 
 	public void printAll() {
@@ -437,6 +446,476 @@ public class LinkedList {
 		printAll();
 	}
 
+	public void sortedIntersection(Node head, Node head2) {
+		Node response = null;
+		Node temp = head;
+		Node temp2 = head2;
+		while (temp.next != null && temp2.next != null) {
+
+			if (temp.id  == temp2.id) {
+				response = append(response, new Node(temp2.id));
+				temp = temp.next;
+				temp2 = temp2.next;
+			} else if (temp.id > temp2.id) {
+				temp2 = temp2.next;
+			} else {
+				temp = temp.next;
+			}
+		}
+
+		this.head = response;
+		printAll();
+	}
+
+	public Node push(Node head, Node node) {
+		node.next = null;
+		if (head == null) {
+			head = node;
+
+			return head;
+		}
+
+		node.next = head;
+
+		head = node;
+
+		return head;
+	}
+
+	public Node append(Node node, Node nodeToAppend) {
+		Node temp = node;
+
+		if (temp == null) {
+			node = nodeToAppend;
+
+			return node;
+		}
+
+		while(temp.next != null) {
+			temp = temp.next;
+		}
+
+		temp.next = node;
+
+		return temp;
+	}
+
+	public void deleteAlt() {
+
+		if (head == null) {
+			return;
+		}
+
+		Node prev = head;
+		Node curr = head.next;
+
+		while (prev !=null && curr != null) {
+			prev.next = curr.next;
+			curr = null;
+
+			prev = prev.next;
+
+			if (prev != null) {
+				curr = prev.next;
+			}
+		}
+
+		printAll();
+	}
+
+	public void altNodes() {
+		Node temp = head;
+		boolean flag = true;
+		Node a = null;
+		Node b = null;
+		while (temp != null) {
+			if (flag) {
+				Node x = temp;
+				x.next = null;
+				a = append(a, x);
+			} else {
+				Node y = temp;
+				y.next = null;
+				b = append(b, y);
+			}
+
+			temp = temp.next;
+
+			flag = !flag;
+		}
+
+		printReverse(a);
+		printReverse(b);
+	}
+
+	public boolean areIdentical(Node n1, Node n2) {
+
+		while (n1 != null && n2 != null) {
+			if (n1.id != n2.id) {
+				return false;
+			}
+
+			n1 = n1.next;
+			n2 = n2.next;
+		}
+
+		return (n1 == null && n2 == null);
+	}
+
+	private Node getMiddleNode(Node node) {
+
+		Node slowPtr = node;
+		Node fastPtr = node.next;
+
+		while(fastPtr != null) {
+			fastPtr = fastPtr.next;
+			if (fastPtr != null) {
+				slowPtr = slowPtr.next;
+				fastPtr = fastPtr.next;
+			}
+		}
+
+		return slowPtr;
+	}
+
+	private Node sortedMerge(Node left, Node right) {
+
+		if (left == null) {
+			return right;
+		}
+
+		if (right == null) {
+			return left;
+		}
+
+		if (left.id <= right.id) {
+			left.next = sortedMerge(left.next, right);
+
+			return left;
+		} else {
+			right.next = sortedMerge(left, right.next);
+
+			return right;
+		}
+	}
+
+	public Node mergeSort(Node node) {
+
+		if (node == null || node.next == null) {
+			return node;
+		}
+
+		Node middle = getMiddleNode(node);
+		Node postMiddle = middle.next;
+		middle.next = null;
+
+		Node left = mergeSort(node);
+		Node right = mergeSort(postMiddle);
+
+		Node sorted = sortedMerge(left, right);
+
+		return sorted;
+	}
+
+	public Node reverse(Node node, int k) {
+
+		Node prev; Node next;
+		prev = next = null;
+		Node curr = node;
+		int count = 0;
+
+		while (count <k && curr != null) {
+			next = curr.next;
+			curr.next = prev;
+			prev = curr;
+			curr = next;
+			count++;
+		}
+
+		if (next != null)
+			node.next = reverse(next, k);
+
+		return prev;
+	}
+
+	public Node reverseAlt(Node node, int k) {
+		Node prev = null;
+		Node next = null;
+		Node curr = node;
+
+		int count = 0;
+
+		while(count < k && curr != null) {
+			next = curr.next;
+			curr.next = prev;
+			prev = curr;
+			curr = next;
+
+			count++;
+		}
+
+		if (node != null) {
+			node.next = curr;
+		}
+
+		count = 0;
+		while (count < k-1 && curr != null) {
+			curr = curr.next;
+			count++;
+		}
+
+		if (curr != null) {
+			curr.next = reverseAlt(curr.next, k);
+		}
+
+		return prev;
+	}
+
+	public void delLesserNodes() {
+
+		Node prev, next, current;
+		prev = next = null;
+		current = head;
+
+		while (current != null) {
+			next = current.next;
+			current.next = prev;
+			prev = current;
+			current = next;
+		}
+
+		head = prev;
+
+		current = head;
+
+		int maxNodeId = current.id;
+		Node temp;
+
+		while (current != null && current.next != null) {
+			if (maxNodeId > current.next.id) {
+				temp = current.next;
+				current.next = temp.next;
+				temp = null;
+			} else {
+				current = current.next;
+				maxNodeId = current.id;
+			}
+		}
+
+		prev = next = null;
+		current = head;
+
+		while (current != null) {
+			next = current.next;
+			current.next = prev;
+			prev = current;
+			current = next;
+		}
+
+		head = prev;
+
+		printAll(prev);
+	}
+
+	public void detectAndRemoveLoop() {
+		Set<Integer> visited = new HashSet<>();
+		Node prev = null;
+		Node current = head;
+		while (current != null) {
+			if (visited.contains(current.id)) {
+				//loop found
+				prev.next = null;
+
+				break;
+			} else {
+				prev = current;
+				current = current.next;
+				visited.add(prev.id);
+			}
+		}
+
+		printAll();
+	}
+
+	public void addTwoLL() {
+		// creating first list
+		Node head1 = new Node(7);
+		head1.next = new Node(5);
+		head1.next.next = new Node(9);
+		head1.next.next.next = new Node(4);
+		head1.next.next.next.next = new Node(6);
+
+		head1 = reverse(head1, null);
+
+		// creating seconnd list
+		Node head2 = new Node(8);
+		head2.next = new Node(4);
+
+		head2 = reverse(head2, null);
+		Node result;
+		Node h1 = head1;
+		Node h2 = head2;
+
+		int num1 = 0;
+		int num2 = 0;
+		String numS1 ="";
+		String numS2="";
+
+		while (h1 != null) {
+			numS1 = numS1+ h1.id;
+			h1 = h1.next;
+		}
+
+		while (h2 != null) {
+			numS2 = numS2+ h2.id;
+			h2 = h2.next;
+		}
+
+		num1 = Integer.parseInt(numS1);
+		num2 = Integer.parseInt(numS2);
+
+		int sum = num1 + num2;
+		System.out.println(num1 + " " + num2 + " " + sum);
+		deleteList(); //local clear
+
+		while (sum > 0) {
+			int rem = sum % 10;
+			sum = sum /10;
+			append(new Node(rem));
+		}
+
+		printAll();
+	}
+
+	public void rotate(int k) {
+
+		Node temp = head;
+
+		while(k > 0) {
+
+			Node prev = null;
+
+			while (temp.next != null) {
+				prev = temp;
+				temp = temp.next;
+			}
+
+			prev.next = null;
+			temp.next = head;
+
+			head = temp;
+
+			k--;
+		}
+
+		printAll();
+	}
+
+
+	public void findTriplet(Node n1, Node n2, Node n3, int tripSum) {
+		Node h1 = n1;
+
+		while(h1 != null) {
+			Node h2 = n2;
+			Node h3 = n3;
+			while (h2 != null && h3 != null) {
+				int sum = h1.id + h2.id + h3.id;
+
+				if (sum == tripSum) {
+					System.out.println("Triplet found: " + h1.id + " " + h2.id + " " + h3.id);
+					return;
+				}
+
+				if (h2.id >= h3.id) {
+					h3 = h3.next;
+				} else {
+					h2 = h2.next;
+				}
+			}
+
+			h1 = h1.next;
+		}
+	}
+
+
+	public void skipMDeleteNNodes(int m, int n) {
+
+		Node temp = head;
+
+		while (m>1 && temp != null) {
+			temp = temp.next;
+			m--;
+		}
+
+		if(temp == null) {
+			return;
+		}
+
+		Node prev = temp;
+		temp = temp.next;
+
+		while (temp != null && n>0) {
+			n--;
+			Node t = temp.next;
+			temp = null;
+			prev.next = t;
+			temp = t;
+		}
+
+		printAll();
+	}
+
+	public Node doInsertionSort() {
+
+		Node current = head;
+		headA = null;
+
+		while (current!=null) {
+			Node next = current.next;
+			insertionSort(current);
+			current = next;
+		}
+
+		printAll(headA);
+
+		return headA;
+	}
+
+	public void insertionSort(Node node) {
+
+		if (headA == null || headA.next.id >= node.id) {
+			node.next = headA;
+			headA = node;
+		}
+		Node temp = headA;
+		while(temp.next != null && temp.next.id < node.id) {
+			temp = temp.next;
+		}
+
+		Node x = temp.next;
+		temp.next = node;
+		node.next = x;
+	}
+
+	public void deleteLastOccurance(int key) {
+		Node current = head;
+		Node prev = null;
+		while (current != null && current.next != null) {
+			if (current.next.id == key) {
+				prev = current;
+			}
+			current = current.next;
+		}
+
+		Node c = prev.next;
+		Node n = c.next;
+
+		prev.next = n;
+
+		printAll();
+	}
+
+
 	public static void main(String args[]) {
 		LinkedList linkedList = new LinkedList();
 		Node node = new Node(10);
@@ -496,5 +975,55 @@ public class LinkedList {
 		System.out.println("remove duplicates unsorted: "); linkedList.removeDuplicatesUnSorted();
 		System.out.println("swapPairwise: "); linkedList.swapPairwise();
 		System.out.println("move last to first : "); linkedList.moveLastToFirst();
+		linkedList.resetList();
+		Node nodeE = new Node(40);
+		head2.next.next.next.next = nodeE;
+
+		System.out.println("REVISIT: WRONG A intersection B: "); linkedList.sortedIntersection(linkedList.head, head2);
+		linkedList.resetList();
+
+		System.out.println("Delete Alt: "); linkedList.deleteAlt();
+		System.out.println("REVISIT: Alt Nodes:"); //linkedList.altNodes();
+
+		System.out.println("Identical LinkedList: " +  linkedList.areIdentical(linkedList.head, linkedList.head));
+
+		linkedList.resetList();
+		linkedList.append(new Node(22));
+		linkedList.append(new Node(33));
+
+		System.out.println("Merge sort a list: "); Node n = linkedList.mergeSort(linkedList.head);
+		linkedList.printAll(n);
+		linkedList.resetList();
+		System.out.println("Reverse a list for a given sizeL : "); n = linkedList.reverse(linkedList.head, 2);
+		linkedList.printAll(n);
+
+		linkedList.resetList();
+		System.out.println("Reverse alt K nodes:"); n = linkedList.reverseAlt(linkedList.head, 2);
+		linkedList.printAll(n);
+		linkedList.resetList();
+		System.out.println("delete greater than on right side: "); linkedList.delLesserNodes();
+
+		linkedList.deleteList();
+		LinkedList list = new LinkedList();
+		list.head = new Node(50);
+		list.head.next = new Node(20);
+		list.head.next.next = new Node(15);
+		list.head.next.next.next = new Node(4);
+		list.head.next.next.next.next = new Node(10);
+		// Creating a loop for testing
+		list.head.next.next.next.next.next = list.head.next.next;
+		System.out.println("detect and remove loop: "); list.detectAndRemoveLoop();
+		linkedList.deleteList();
+
+		System.out.println("add two LL: "); linkedList.addTwoLL();
+		linkedList.resetList();
+		System.out.println("Rotate k times: "); linkedList.rotate(2);
+		System.out.println("Linked List triplet sum: "); linkedList.findTriplet(linkedList.head, linkedList.head, linkedList.head, 100);
+		linkedList.resetList();
+		System.out.println("Skip M and deleteN nodes:"); linkedList.skipMDeleteNNodes(2, 2);
+
+		//System.out.println("insertion sort: "); linkedList.doInsertionSort();
+		linkedList.resetList();
+		System.out.println("Delete last occurance "); linkedList.deleteLastOccurance(50);
 	}
 }
