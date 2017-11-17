@@ -65,6 +65,16 @@ public class Graph {
         }
     }
 
+    public void DFSUnOrdered() {
+        boolean[] visited = new boolean[this.vertices];
+
+        for(int i=0; i<this.vertices; i++) {
+            if (!visited[i]) {
+                printDFSPath(i, visited);
+            }
+        }
+    }
+
     public static void main(String args[]) {
 
         Graph g = new Graph(4);
@@ -78,6 +88,8 @@ public class Graph {
         g.BFS(2); // ans: 2031
         System.out.println("");
         g.DFS(2); // ans: 2013
+        System.out.println("");
+        g.DFSUnOrdered(); //0123
     }
 
 }

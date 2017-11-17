@@ -18,4 +18,8 @@ public class Node {
         left = right = null;
         this.next = null;
     }
+
+    public boolean isLeaf() {
+        return left == null && right == null;
+    }
 }
